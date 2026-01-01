@@ -1,4 +1,6 @@
+===================================================================================================
 -- A. Data Retrieval & Filtering
+
 -- Retrieve all details of every book in the inventory.
 SELECT * from books;
 
@@ -22,3 +24,30 @@ select title from books where rating is null;
 
 -- Show books where the publisher’s information is available.
 select title from books where publisher is not null;
+
+===================================================================================================
+B. Working with Operators1.
+
+-- Display each book’s title, its listed price, and the price after applying a 10% tax.
+SELECT title, price, ROUND(price + price * (10.0 / 100), 2) as price_with_tax from books;
+SELECT title, price, round((price*1.1),2)  as price_with_tax from books;
+
+
+-- Identify books with a high page count but still priced affordably.
+SELECT title, pages, price from books where pages  > 800 and price <20;
+
+-- Find books whose rating is different from the highest possible score.
+-- Find highest rating
+select * from books order by rating desc;
+select max(rating) from books;
+
+-- Query:
+select * from books where rating != 5;
+select * from books where rating != (select max(rating) from books)
+or rating is null;
+
+
+-- Retrieve books that are either not in English or are offered in a digital format.
+SELECT * from books where language != 'English' OR format = 'eBook';
+
+===================================================================================================

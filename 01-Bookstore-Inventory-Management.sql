@@ -26,7 +26,7 @@ select title from books where rating is null;
 select title from books where publisher is not null;
 
 ===================================================================================================
-B. Working with Operators1.
+B. Working with Operators
 
 -- Display each book’s title, its listed price, and the price after applying a 10% tax.
 SELECT title, price, ROUND(price + price * (10.0 / 100), 2) as price_with_tax from books;
@@ -51,3 +51,18 @@ or rating is null;
 SELECT * from books where language != 'English' OR format = 'eBook';
 
 ===================================================================================================
+C. Pattern Matching & Range Filtering
+
+-- List books whose titles include a certain keyword, regardless of case.
+SELECT * from books where lower(title) LIKE '%sky%';
+
+
+-- Identify authors whose last names start with a specific two-letter prefix.
+
+-- Find all books that fall under a selected set of genres.
+
+-- Retrieve books whose prices are within a specified range.
+
+-- List books published outside of a given year range.
+
+SELECT * from books;

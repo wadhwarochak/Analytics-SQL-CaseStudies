@@ -26,7 +26,7 @@ select title from books where rating is null;
 select title from books where publisher is not null;
 
 ===================================================================================================
-B. Working with Operators
+-- B. Working with Operators
 
 -- Display each book’s title, its listed price, and the price after applying a 10% tax.
 SELECT title, price, ROUND(price + price * (10.0 / 100), 2) as price_with_tax from books;
@@ -51,18 +51,76 @@ or rating is null;
 SELECT * from books where language != 'English' OR format = 'eBook';
 
 ===================================================================================================
-C. Pattern Matching & Range Filtering
+-- C. Pattern Matching & Range Filtering
 
 -- List books whose titles include a certain keyword, regardless of case.
 SELECT * from books where lower(title) LIKE '%sky%';
 
 
 -- Identify authors whose last names start with a specific two-letter prefix.
+SELECT * from books where author like '% Ma%';
 
 -- Find all books that fall under a selected set of genres.
+select * from books where genre in ('Horror','History');
 
 -- Retrieve books whose prices are within a specified range.
+select * from books where price between 30 and 50;
+
 
 -- List books published outside of a given year range.
+select * from books where publication_year not between 2001 and 2020;
 
-SELECT * from books;
+===================================================================================================
+
+-- D. Identifying Unique Values
+
+-- Provide a list of all unique genres available in the catalog.
+select distinct genre from books;
+
+-- Determine how many unique authors are represented in the database.
+select count(distinct author) from books;
+===================================================================================================
+
+E. Aggregate Calculations
+
+-- Calculate the total number of books in the inventory.
+SELECT sum(stock) as total_books from books;
+
+-- Determine the average book price.
+select avg(price) from books;
+
+-- Find the highest and lowest page counts among all books.
+select min(pages) as least_page_count, max(pages) as highest_page_count from books;
+
+-- Calculate the average customer rating for all rated books.
+select avg(rating) from books where rating is not null;
+
+-- Compute the total value of the current stock, based on price and quantity available.
+select sum(price * stock) from books as total_value;
+
+
+===================================================================================================
+
+F. Categorising with CASE
+
+-- Categorize books into price bands such as “Budget”, “Standard”, or “Premium” based on pricing rules.
+SELECT title, price,
+    CASE WHEN price < 15 THEN 'Budget'
+         WHEN price <= 35 THEN 'Standard'
+         ELSE 'Premium' END AS price_band
+    FROM books;
+
+-- Classify books as “Out of Stock”, “Low Stock”, or “In Stock” based on available quantity.
+SELECT title, stock,
+    CASE WHEN stock = 0 THEN 'Out of Stock'
+         WHEN stock BETWEEN 1 AND 10 THEN 'Low'
+         ELSE 'In Stock' END AS stock_status
+    FROM books;
+
+-- Group books into “Classic”, “Old”, “Recent”, or “New” categories depending on publication year.
+    CASE WHEN publication_year < 1990 THEN 'Classic'
+         WHEN publication_year BETWEEN 1990 AND 2009 THEN 'Old'
+         WHEN publication_year BETWEEN 2010 AND 2019 THEN 'Recent'
+         ELSE 'New' END AS age_category
+    FROM books;
+

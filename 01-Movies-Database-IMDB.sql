@@ -184,3 +184,64 @@ Module: Calculated Columns (IF, CASE, YEAR, CURYEAR)
              ELSE revenue
            END as revenue_mln
 	FROM financials
+
+=============================================================================================
+
+Module: SQL Joins (INNER, LEFT, RIGHT, FULL)
+
+-- Print all movies along with their title, budget, revenue, currency and unit. [INNER JOIN]
+	SELECT 
+            m.movie_id, title, budget, revenue, currency, unit 
+	FROM movies m
+	INNER JOIN financials f
+	ON m.movie_id=f.movie_id;
+
+-- Perform LEFT JOIN on above discussed scenario
+	SELECT 
+            m.movie_id, title, budget, revenue, currency, unit 
+	FROM movies m
+	LEFT JOIN financials f
+	ON m.movie_id=f.movie_id;
+
+-- Perform RIGHT JOIN on above discussed scenario
+	SELECT 
+            m.movie_id, title, budget, revenue, currency, unit 
+	FROM movies m
+	RIGHT JOIN financials f
+	ON m.movie_id=f.movie_id;
+
+-- Perform FULL JOIN using 'Union' on above two tables [movies, financials]
+	SELECT 
+            m.movie_id, title, budget, revenue, currency, unit 
+	FROM movies m
+	LEFT JOIN financials f
+	ON m.movie_id=f.movie_id
+
+	UNION
+
+	SELECT 
+            m.movie_id, title, budget, revenue, currency, unit 
+	FROM movies m
+	RIGHT JOIN financials f
+	ON m.movie_id=f.movie_id;
+
+-- Interchanging the position of Left and Right Tables
+	Select 
+	    m.movie_id, title, revenue 
+	from movies m 
+        left join financials f
+        on m.movie_id = f.movie_id;
+
+	Select 
+	    m.movie_id, title, revenue 
+	from financials f 
+        left join movies m
+        on m.movie_id = f.movie_id;
+
+-- Replacing 'ON' with 'USING' while joining conditions
+	Select 
+	   m.movie_id, title, revenue 
+	from movies m 
+        left join financials f
+	USING (movie_id);
+      
